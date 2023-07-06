@@ -2,7 +2,9 @@
   <table class="table">
     <thead>
       <tr>
-        <th v-for="col in headTable">{{ col }}</th>
+        <th v-for="col in headTable">
+          {{ col }} <span @click="sortCol">*</span>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -16,9 +18,33 @@
 <script>
 export default {
   name: 'table',
-  props: {
-    dataTable: Array,
-    headTable: Array,
+  props: {},
+  data() {
+    return {
+      headTable: [
+        'Заголовок 1',
+        'Заголовок 2',
+        'Заголовок 3',
+        'Заголовок 4',
+        'Заголовок 5',
+      ],
+      dataTable: [
+        ['val-1-1', 'val-1-2', 'val-1-3', 'val-1-4', 'val-1-5'],
+        ['val-2-1', 'val-2-2', 'val-2-3', 'val-2-4', 'val-2-5'],
+        ['val-3-1', 'val-3-2', 'val-3-3', 'val-3-4', 'val-3-5'],
+        ['val-4-1', 'val-4-2', 'val-4-3', 'val-4-4', 'val-4-5'],
+        ['val-5-1', 'val-5-2', 'val-5-3', 'val-5-4', 'val-5-5'],
+      ],
+    };
+  },
+  methods: {
+    sortCol() {
+      this.dataTable = this.dataTable.filter((el) => {
+        return Object.keys(el).some((key) => {
+          return String(el[key]).toLowerCase().indexOf('4-5') > -1;
+        });
+      });
+    },
   },
 };
 </script>
