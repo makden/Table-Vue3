@@ -40,11 +40,13 @@ export default {
   methods: {
     sortCol() {
       this.dataTable = this.dataTable.filter((el) => {
-        console.log('----');
-        let ddd = el.forEach((elem, eee) => {
-          return String(elem).toLowerCase().indexOf('4-5') > -1;
+        let ddd = [];
+        el.forEach((elem, eee) => {
+          if (String(elem).toLowerCase().indexOf('4-5') > -1) {
+            ddd.push(elem);
+          }
         });
-        //console.log(ddd);
+        console.log(ddd);
         return ddd;
       });
     },
