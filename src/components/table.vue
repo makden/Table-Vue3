@@ -40,9 +40,12 @@ export default {
   methods: {
     sortCol() {
       this.dataTable = this.dataTable.filter((el) => {
-        return Object.keys(el).some((key) => {
-          return String(el[key]).toLowerCase().indexOf('4-5') > -1;
+        console.log('----');
+        let ddd = el.forEach((elem, eee) => {
+          return String(elem).toLowerCase().indexOf('4-5') > -1;
         });
+        //console.log(ddd);
+        return ddd;
       });
     },
   },
