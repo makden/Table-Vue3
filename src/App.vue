@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <hdr />
     <hr />
     <Table :dataTable="TableBody" :headTable="TableHead" />
     <!--<HelloWorld msg="Tables" /> -->
@@ -9,10 +10,11 @@
 <script>
 import HelloWorld from './components/HelloWorld.vue';
 import Table from './components/table.vue';
-
+import hdr from './components/hdr.vue';
 export default {
   name: 'App',
   components: {
+    hdr,
     HelloWorld,
     Table,
   },
@@ -29,6 +31,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 0;
+  font-size: 14px;
 }
 </style>

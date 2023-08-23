@@ -1,45 +1,48 @@
 <template>
-  <table class="table">
+  <table class="table table-light table-striped table-bordered">
+    <caption @click="$store.commit('tableHead')">
+      vue
+    </caption>
     <thead>
       <tr>
-        <th v-for="col in headTable">
+        <th v-for="col in $store.getters.tableHead">
           {{ col }} <span @click="sortCol">*</span>
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="rows in dataTable">
+      <tr v-for="rows in $store.getters.tableData">
         <td v-for="col in rows">{{ col }}</td>
       </tr>
     </tbody>
   </table>
+  <hr />
+  <btn @click="hiddenWindow(true)"> Добавить строку</btn>
+
+  <transition name="fade"
+    ><mdlwnd
+      @hiddenWindow="hiddenWindow"
+      v-if="modalWindow"
+      title="Добавить нового пользователя"
+  /></transition>
 </template>
 
 <script>
+import btn from './UI/btn';
+import mdlwnd from './UI/modalwindow';
 export default {
+  components: {
+    btn,
+    mdlwnd,
+  },
   name: 'table',
   props: {},
   data() {
-    return {
-      headTable: [
-        'Заголовок 1',
-        'Заголовок 2',
-        'Заголовок 3',
-        'Заголовок 4',
-        'Заголовок 5',
-      ],
-      dataTable: [
-        ['val-1-1', 'val-1-2', 'val-1-3', 'val-1-4', 'val-1-5'],
-        ['val-2-1', 'val-2-2', 'val-2-3', 'val-2-4', 'val-2-5'],
-        ['val-3-1', 'val-3-2', 'val-3-3', 'val-3-4', 'val-3-5'],
-        ['val-4-1', 'val-4-2', 'val-4-3', 'val-4-4', 'val-4-5'],
-        ['val-5-1', 'val-5-2', 'val-5-3', 'val-5-4', 'val-5-5'],
-      ],
-    };
+    return { modalWindow: false };
   },
   methods: {
     sortCol() {
-      this.dataTable = this.dataTable.filter((el) => {
+      this.$store.state.tables.dataTable = this.dataTable.filter((el) => {
         let ddd = [];
         el.forEach((elem, eee) => {
           if (String(elem).toLowerCase().indexOf('4-5') > -1) {
@@ -50,17 +53,44 @@ export default {
         return ddd;
       });
     },
+    hiddenWindow(hide) {
+      this.modalWindow = hide;
+    },
   },
 };
 </script>
 
 <style scoped>
-.table {
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* .table {
   width: 100%;
   border: none;
   margin-bottom: 20px;
   border-collapse: separate;
-}
+} */
 .table thead th {
   font-weight: bold;
   text-align: left;
@@ -68,15 +98,17 @@ export default {
   padding: 10px 15px;
   background: #def;
   font-size: 14px;
-  border-top: 1px solid #ddd;
+
+  color: #333;
 }
+/*
 .table tr th:first-child,
 .table tr td:first-child {
-  border-left: 1px solid #ddd;
+  border-left: 1px solid #1f4699;
 }
 .table tr th:last-child,
 .table tr td:last-child {
-  border-right: 1px solid #ddd;
+  border-right: 1px solid #1f4699;
 }
 .table thead tr th:first-child {
   border-radius: 10px 0 0 0;
@@ -95,12 +127,12 @@ export default {
   background: #f8f8f8;
 }
 .table tbody tr:last-child td {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #1f4699;
 }
 .table tbody tr:last-child td:first-child {
   border-radius: 0 0 0 20px;
 }
 .table tbody tr:last-child td:last-child {
   border-radius: 0 0 20px 0;
-}
+} */
 </style>
